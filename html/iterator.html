@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>简单实现iterator接口机制</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 模拟指针对象（遍历器对象）
+         * iterator会返回一个对象
+         * 对象中有两个属性next()和done:boolean
+
+         将iterator接口部署到指定的数据类型上，就可以使用for of遍历数据
+         如 Array string arguments Set Map等
+         * */
+        function myiterator(arr) {
+            let nextIndex = 0;
+            return {
+                //使用三目运算符
+                next() {
+                    return nextIndex < arr.length ? {
+                        next: arr[nextIndex++],
+                        done: false
+                    } : {
+                        next: undefined,
+                        done: true
+                    }
+                }
+            }
+        }
+        let arr = [1, 2, 3]
+        let iterator = myiterator(arr);
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+    </script>
+</body>
+
+</html>

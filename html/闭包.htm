@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function fun(n, o) {
+            // var n = 0 1 2 3
+            // var o = undefined 0 0 0 
+            console.log("n:", n);
+            console.log("o:", o);
+            return {
+                fun: function (m) {
+                    // var m =  1 2 3
+                    console.log("m:", m);
+                    return fun(m, n);
+                }
+            }
+        }
+        var a = fun(0);
+        a.fun(1);
+        a.fun(2);
+        a.fun(3); //undefined 0 
+        /**
+         * a = {
+         *       fun:function(m){
+         *          // var m = undefined
+         *          return fun(m,n);
+         *      }
+         * }
+         * */
+    </script>
+</body>
+
+</html>

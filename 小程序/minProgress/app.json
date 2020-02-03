@@ -1,0 +1,32 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ff5777",
+    "navigationBarTitleText": "agoni",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "red",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "selectedColor": "#ff5777",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "asset/tagbar/home.png",
+        "selectedIconPath": "asset/tagbar/home_1.png"
+      },
+      {
+        "pagePath": "pages/logs/logs",
+        "text": "分类",
+        "iconPath": "asset/tagbar/category.png",
+        "selectedIconPath": "asset/tagbar/category_1.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

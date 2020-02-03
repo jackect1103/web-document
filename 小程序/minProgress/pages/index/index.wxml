@@ -1,0 +1,6 @@
+<!--index.wxml-->
+<view wx:for='{{ list }}' wx:key='list'>{{ item.name }}</view>
+<view>{{ number }}</view>
+<button size="mini" bindtap="handleClick">+</button>
+<button open-type='getUserInfo' >获取授权</button>
+<button bindgetuserinfo="getUserInfo" open-type="getUserInfo">获取授权</button>

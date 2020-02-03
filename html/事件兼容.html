@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    html,
+    body {
+        /* background-color: orangered; */
+    }
+</style>
+
+<body style="height: 1500px;">
+    <ul>
+        <li>1cdcdcdcc</li>
+        <li>2cdcdcdcd</li>
+    </ul>
+    <!--[if IE 8]> ie8 <![endif]-->
+
+    <!--[if IE 9]> 骚气的 ie9 浏览器 <![endif]-->
+    <!-- <script>
+        var helper = {}
+
+        //绑定事件
+        helper.on = function (target, type, handler) {
+            if (target.addEventListener) {
+                target.addEventListener(type, handler, false);
+            } else {
+                target.attachEvent("on" + type,
+                    function (event) {
+                        return handler.call(target, event);
+                    }, false);
+            }
+        };
+
+        //取消事件监听
+        helper.remove = function (target, type, handler) {
+            if (target.removeEventListener) {
+                target.removeEventListener(type, handler);
+            } else {
+                target.detachEvent("on" + type,
+                    function (event) {
+                        return handler.call(target, event);
+                    }, true);
+            }
+        };
+    </script> -->
+    <script>
+        window.onload = function () {
+            document.onscroll = function () {
+                // console.log('document.body.scrollTop:' + document.body.scrollTop);
+                // console.log(event.target.nodeName);
+                // console.log('document.documentElement.scrollTop:'+document.documentElement.scrollTop);
+            }
+            var ul = document.getElementsByTagName('ul')[0];
+            ul.onclick = function (event) {
+                event = event || windown.event;
+                //获取事件触发元素标签name
+                if (event.target.nodeName == 'li'.toUpperCase()) {
+                    console.log(typeof event.target.nodeName);
+                }else{
+                    console.log('error:',event.target.nodeName);
+                    console.log('li'.toUpperCase())
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>

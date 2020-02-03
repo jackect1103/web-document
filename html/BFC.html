@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .father {
+        width: 350px;
+        background-color: yellow;
+    }
+
+    .aside {
+        width: 100px;
+        height: 150px;
+        float: left;
+        /*会产生BFC*/
+        background: blue;
+    }
+
+    .main {
+        height: 200px;
+        background: red;
+        overflow: hidden;
+        /*解决BFC*/
+    }
+
+    /* 第二种BFC */
+    .container {
+        width: 450px;
+        background-color: pink;
+    }
+
+    .floated {
+        float: left;
+        margin: 0 10px 0 0;
+    }
+
+    .oh {
+        /* 让p变成另一个BFC容器 */
+        overflow: hidden;
+    }
+
+    /* 在多列布局中使用BFC */
+    .container2 {
+        min-height: 200px;
+    }
+
+    .column {
+        width: 31.33%;
+        background-color: green;
+        float: left;
+        min-height: 100px;
+        margin: 0 1%;
+    }
+
+    .column:last-child {
+        float: none;
+        overflow: hidden;
+    }
+</style>
+
+<body>
+    <input type="text" value="" id="text">
+    <button>sss</button>
+    <div>
+        <a href="https://www.w3cplus.com/css/understanding-block-formatting-contexts-in-css.html"
+            style="font-size: 35px;">理解CSS中BFC</a>
+    </div>
+
+    <div class="father">
+        <div class="aside"></div>
+        <div class="main"></div>
+    </div>
+    <!-- 解决BFC产生的字体环绕问题 -->
+    <p>解决BFC产生的字体环绕问题</p>
+    <div class="container">
+        <div class="floated">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/man-jumping.jpg" alt="man jumping">
+        </div>
+        <p class="oh">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+            Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Lorem ipsum dolor sit amet,
+            consectetur adipisicing elit. Quae hic ut ab perferendis sit quod architecto, dolor debitis quam rem
+            provident aspernatur tempora expedita perspiciatis suscipit ipsam voluptas tenetur. Nostrum? Quae hic ut ab
+            perferendis sit quod architecto. Quae hic ut ab perferendis sit quod architecto.</p>
+    </div>
+    <!-- 在多列布局中使用BFC -->
+    <p>在多列布局中使用BFC</p>
+    <div class="container2">
+        <div class="column">column 1</div>
+        <div class="column">column 2</div>
+        <div class="column">column 3</div>
+    </div>
+
+</body>
+    <script>
+        var button = document.getElementsByTagName('button')[0];
+        var text = document.getElementById('text')[0];
+        button.onclick = function(){
+            document.getElementById('text').value = '0'
+            console.log('1')
+        }
+    </script>
+</html>

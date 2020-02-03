@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /**
+        * 考察变量和函数提升(变量提升值是 undefined，函数是整体提升)
+        * 当变量名和函数名一样的时候，函数替代变量名
+        * 运算符优先级 （点的优先级关系是最高的）
+        * this的指向
+        * 作用域链
+        **/
+        function Foo() {
+            //变量查找规则
+            //由于没有定义getName变量，就会从作用域链上找getName变量
+            getName = function () {
+                alert(1)
+            }
+            return this;
+        }
+        //给Foo函数添加了getName方法
+        Foo.getName = function () {
+            alert(2)
+        }
+        //给Foo上的显示原型链添加了getName方法
+        Foo.prototype.getName = function () {
+            alert(3)
+        }
+        var getName = function () {
+            alert(4)
+        }
+
+        function getName() {
+            alert(5)
+        }
+
+        Foo.getName();//2
+        getName();//4
+        Foo().getName();//1 (Foo()).getName() ==>window.getName()  会从作用域链上找getName变量
+        getName();//1
+        new Foo.getName();//2
+        new Foo().getName();//3   (new Foo()).getName() ==> foo.getName()
+        new new Foo().getName();//3   new {(new Foo()).getName)()
+    </script>
+</body>
+
+</html>

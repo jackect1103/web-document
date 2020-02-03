@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    #father{
+        width:150px;
+        height: 100px;
+        background-color: yellow;
+        margin-left:150px;
+        border-radius:15px;
+        overflow: hidden;
+        /* position: relative;
+        z-index: 1; */
+    }
+    #child{
+        width:100px;
+        height: 50px;
+        background-color: pink;
+        transform: skew(15deg)
+    }
+</style>
+<body>
+    <div id="father">
+        <div id="child"></div>
+    </div>
+    <script>
+        function traverse() {
+            var arr = [];
+            var elements = [];
+            if (document.all) {
+                elements = document.all;
+            } else {
+                elements = document.getElementsByTagName("*");
+            }
+            //console.log(elements.length);
+            for (var i = 0; i < elements.length; i++) {
+                var ele = elements[i];
+                //console.log(ele.tagName);
+                //width 返回的是字符串 offsetWidth 返回的是带边框的 Number 型的数字
+                var width = parseFloat(ele.style.width) || ele.offsetWidth;
+                //console.log(width); 
+                var height = parseFloat(ele.style.height) || ele.offsetHeight;
+                //console.log(height); 
+                if (width > 50 && height > 50) {
+                    arr.push(elements[i].tagName);
+                }
+            }
+            return arr;
+        }
+        window.onload = function () //注意 onload 的使用方式
+        {
+            console.log(traverse());
+            console.log("a");
+            console.log('a');
+        }
+    </script>
+</body>
+
+</html>
