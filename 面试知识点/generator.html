@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Generator</title>
+</head>
+<body>
+    <script>
+        /**
+        *使用generator进行异步请求
+        **/
+        //XHRequest
+        function XHRequest(url) { 
+            // console.log(url);
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open('get',url);
+            xmlHttp.send();
+            xmlHttp.onreadystatechange = function(){
+                if(xmlHttp.readyState == 4){
+                    if(xmlHttp.status == 200){
+                        //第二步
+                         mytest.next(JSON.parse(xmlHttp.responseText))
+                    }else{
+                        console.log('获取数据失败');
+                    }
+                }
+            }
+        }
+
+        //使用Generator
+        function* myTest() {
+            //发送请求
+            var uuu = yield XHRequest('https://api.comments.hk/');
+            console.log("uuu",uuu);
+            yield 2
+        }
+        let mytest = myTest()
+        //第一步
+        console.log(mytest.next());
+    </script>
+</body>
+</html>

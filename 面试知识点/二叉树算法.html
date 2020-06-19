@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>二叉树算法</h1>
+    <script>
+        /**
+         * 二叉树算法:
+         * 根节点 比 左节点大 比 右节点小 以此类推
+         * 最底下的节点称为 叶节点
+         * */
+
+
+        function BinaryTree() {
+            /**
+             * 创建节点
+             * 传入一个值（当前节点的值） 
+             * */
+            var Node = function (key) {
+                this.key = key;
+                this.left = null;
+                this.right = null;
+            }
+
+            //创建根节点root
+            var root = null;
+
+            //创建插入的方法
+            this.insert = function (key) {
+                //创建新节点
+                var newNode = new Node(key);
+                //先判断root是否为null ，来确定是否有数据
+                if (root === null) {
+                    root = newNode;
+                } else {
+                    insertNode(root, newNode);
+                }
+            }
+
+            //插入中间节点
+            var insertNode = function (node, newNode) {
+                if (newNode.key < node.key) {
+                    //还需要判断root是否还有左节点
+                    if (node.left === null) {
+                        node.left = newNode;
+                    } else {
+                        //如果还有左节点，接着执行insertNode方法
+                        insertNode(node.left, newNode);
+                    }
+                } else {
+                    //还需要判断root是否还有右节点
+                    if (node.right === null) {
+                        node.right = newNode;
+                    } else {
+                        //如果还有右节点，接着执行insertNode方法
+                        insertNode(node.right, newNode);
+                    }
+                }
+            }
+
+            //中序遍历二叉树（1）
+            this.inOrderTraver = function (callback) {
+                inOrderTraverNode(root, callback);
+            }
+            //中序遍历二叉树（2）
+            var inOrderTraverNode = function (node, callback) {
+                if (node !== null) {
+                    inOrderTraverNode(node.left, callback);
+                    //将当前节点值传给回调函数
+                    callback(node.key);
+                    inOrderTraverNode(node.right, callback);
+                }
+            }
+            //前序遍历二叉树（1）重新复制一份二叉树（优选）
+        }
+
+        var node = [8, 12, 65, 21, 12, 1, 5, 9, 10];
+        var BinaryTree = new BinaryTree();
+        node.forEach(val => {
+            BinaryTree.insert(val);
+        })
+        var callback = function (key) {
+            console.log(key);
+        }
+        console.log(BinaryTree.inOrderTraver(callback));
+    </script>
+</body>
+
+</html>

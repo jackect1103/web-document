@@ -4,9 +4,10 @@
 ### 一、obj.offsetWidth和obj.offsetHeight （获取元素的整个高度和宽度）|| obj.offsetParent （只读的,获取当前元素的 最近***定位*** 父元素）
  > 作用： 只能获取对象的宽度和高度，不能修改。得出的结果不带px
 ```javascript
-obj.offsetWifth ( 或offsetHeight) = width (或 height) + padding + border(注意：不包括外边距！)
+obj.offsetWifth ( 或offsetHeight) = width (或 height) + padding + border(ie布局/注意：不包括外边距！)
 
 div.style.width 获取的数据来之行内时的宽高（可以通过div.style.width=xxx）来修改div的宽高
+element.style 读取的**只是元素的内联样式**，即写在元素的 style 属性上的样式
 div.style.width == > 100px
 ```
 
@@ -34,7 +35,14 @@ div.style.width == > 100px
 
 #### obj.scrollLeft || obj.scrollTop
 > 获取滚动条滚动的距离
+>
 > > 浏览器认为滚动条是html的 所以使用`document.documentElement.scrollTop`来获取scrollTop
+
+**getComputedStyle(element,style)**
+
+- 返回的对象是 **CSSStyleDeclaration** 类型的对象
+-  读取的样式是最终样式，包括了**内联样式**、**嵌入样式**和**外部样式**
+- **仅支持读**并不支持写入
 
 ### 五：原生width和height
 
@@ -65,7 +73,8 @@ function getStyle(obj,name){
 ### 事件(event)兼容性
 > 注意事项：在IE8以下浏览器，将事件对象作为window对象的属性保存
 > event = event || window.event;
-  1. 鼠标位置event.clientX （永远相对于浏览器可视区域的<0,0>）
+>
+>   1. 鼠标位置event.clientX （永远相对于浏览器可视区域的<0,0>）
 ```javascript
 obj.onMouseOver = function(event){
     event = event || window.event;

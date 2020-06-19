@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #parent {
+            width: 500px;
+            border: 1px solid #ccc;
+            /* 不推荐使用 */
+            /* overflow: hidden; */
+        }
+
+        .children {
+            width: 150px;
+            height: 250px;
+            float: left;
+            background-color: red;
+            margin: 0 10px;
+        }
+
+        .bottom {
+            width: 500px;
+            height: 150px;
+            background-color: blue;
+            /* clear: both; */
+        }
+
+        /* 推荐使用 */
+        .clearfix:after {
+            /*伪元素是行内元素 正常浏览器清除浮动方法*/
+            content: "";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .clearfix {
+            *zoom: 1;
+            /*ie6清除浮动的方式 *号只有IE6-IE7执行，其他浏览器不执行*/
+        }
+
+        .trans {
+            width: 350px;
+            height: 350px;
+            background-color: purple;
+            display: table;
+        }
+
+        .veticle {
+            width: 150px;
+            height: 150px;
+            background-color: yellow;
+            vertical-align:center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="parent" class="clearfix">
+        父元素
+        <div class="children"></div>
+        <div class="children"></div>
+        <!-- 不推荐使用  -->
+        <!-- <div style="clear: both;"></div> -->
+    </div>
+    <div class="bottom"></div>
+
+    <div class="trans">
+        <div class="veticle"></div>
+    </div>
+</body>
+
+</html>

@@ -177,3 +177,83 @@ directives : {
 ```javascript
 <div v-my-directive='xxx'>
 ```
+
+# 9. nextTck
+
+## 9.1nextTick的触发时机
+
+　　　　  说明：$nextTick 是在下次DOM更新循环结束之后延迟回调，在修改数据之后使用$nextTick,则可以再回调中获取更新后的DOM
+
+​				在同一事件循环中的数据变化后，**DOM完成更新，立即执行nextTick(callback)内的回调**。（涉及到事件循环机制）
+
+```html
+<template>
+  <div>
+    <div ref="msgDiv">{{msg}}</div>
+    <div v-if="msg1">Message got outside $nextTick: {{msg1}}</div>
+    <div v-if="msg2">Message got inside $nextTick: {{msg2}}</div>
+    <div v-if="msg3">Message got outside $nextTick: {{msg3}}</div>
+    <button @click="changeMsg">Change the Message</button>
+  </div>
+</template>
+```
+
+```js
+data() {
+    return {
+      msg: "Hello Vue.",
+      msg1: "",
+      msg2: "",
+      msg3: ""
+    };
+  },
+  methods: {
+    changeMsg() {
+      this.msg = "Hello world.";
+      this.msg1 = this.$refs.msgDiv.innerHTML;
+      this.$nextTick(() => {
+        this.msg2 = this.$refs.msgDiv.innerHTML;
+      });
+      this.msg3 = this.$refs.msgDiv.innerHTML;
+    }
+  }
+```
+
+> 点击前
+
+![点击前](https://upload-images.jianshu.io/upload_images/3985563-b6bb266285e8d232.png?imageMogr2/auto-orient/strip|imageView2/2/w/152/format/webp)
+
+> 点击后
+
+![点击后](https://upload-images.jianshu.io/upload_images/3985563-f49bff3190724514.png?imageMogr2/auto-orient/strip|imageView2/2/w/341/format/webp)
+
+## 9.2应用场景
+
+- 在Vue生命周期的`created()`钩子函数**进行的DOM操作**一定要放在`Vue.nextTick()`的回调函数中
+
+  在`created()`钩子函数执行的时候，DOM 其实并未进行任何渲染，而此时进行DOM操作无异于徒劳，所以此处一定要将DOM操作的js代码放进`Vue.nextTick(（）=>{})`的回调函数中。**与之对应**的就是**`mounted()`钩子函数**，因为该钩子函数执行时**所有的DOM挂载和渲染都已完成**，此时在该钩子函数中进行任何DOM操作都不会有问题 。
+
+- 在数据变化后要执行的某个操作，而这个操作需要使用随数据改变而改变的DOM结构的时候，这个操作都应该放进`Vue.nextTick()`的回调函数中。
+
+  例如swiper轮播图的时候，需要先将图片请求到后，将数据赋值给data中的**swiperList**属性用于渲染。但是new Swiper('.swiper-container'),需要写在**Vue.nextTick(（）=>{})**中。
+
+  ```js
+  mounted(){
+      this.$axios.get('http://xxxx.com')
+      .then(res=>{
+          this.swiperList = res.data.swiperList
+      })
+  },
+  watch:{
+      swiperList(){
+          this.$nextTick(()=>{
+              //是指轮播图的图片请求到后在将数据渲染到dom中  
+              new Swiper('.swiper-container')
+          })
+      }
+  }
+  ```
+
+  
+
+  

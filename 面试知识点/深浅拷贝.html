@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>深浅拷贝</title>
+</head>
+
+<body>
+    <script>
+        //第一种浅拷贝
+        // Object.assign(target,source);
+        /* var obj = {
+            userName: 'agoni',
+            age: 22
+        }
+        var objTarget = {}
+        Object.assign(objTarget, obj);
+        console.log(objTarget);
+        console.log(objTarget == obj);//false */
+
+        //第二种拷贝(深拷贝)
+        //target = JSON.parse(JSON.stringify(source))
+        //缺点：不能拷贝function
+        //因为JSON.stringify只能拷贝 原生js中的基本对象/array
+        /* var source = {
+            userName: 'agoni',
+            age: 22
+        }
+        var target = {}
+        target = JSON.parse(JSON.stringify(source))
+        console.log(target); */
+
+        /**
+        *第三种：数组浅拷贝方法
+        *Array.prototype.concat();
+        *Array.prototype.slice();
+        *
+        **/
+        
+        //实现深拷贝
+        function deepClone(target) {
+            //判断是否为基本数据类型 number boolean string  undefined
+            if (basicType(target)) {
+                return target
+            }
+            //判断是否为function
+            if (Object.prototype.toString.call(target) == "[object Function]") {
+                return target;
+            }
+            //判断是否为array || 普通Object
+            var objSource = Object.prototype.toString.call(target) == "[object Array]" ? [] : {};
+            for (let i in target) {
+                objSource[i] = deepClone(target[i]);
+            }
+            return objSource;
+
+        }
+        //判断是否为基本数据类型
+        function basicType(target) {
+            let result = Object.prototype.toString.call(target);
+            switch (result) {
+                case "[object Undefined]":
+                    return true;
+                case "[object Number]":
+                    return true;
+                case "[object String]":
+                    return true;
+                case "[object Boolean]":
+                    return true;
+            }
+        }
+
+        let sourceArr = [1, 2, 3, [5, 6, 8, 9], {
+            name: 'jackect'
+        }, function aa() {}];
+        let target = deepClone(sourceArr);
+        target[3] = 'agoni'
+        target[4].name = 'agoni';
+
+        function cc() {}
+        target[5] = cc;
+        console.log("sourceArr", sourceArr);
+        console.log("target", target);
+    </script>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 创建表单组件 -->
+    <!-- 创建表单组件 --> 
     <!-- 通过v-bind:value 和 v-on:input 来实现数据双向绑定 -->
     <input :type="type" :value="inputValue" @input="handchangeValue" />
   </div>

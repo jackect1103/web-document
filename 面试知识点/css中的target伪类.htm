@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .bg{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+    }
+    .bg1{
+        z-index:100;
+        background-color: #000;
+    }
+    .bg2{
+        background-color: #fda100;
+    }
+    .bg3{
+        background-color: #ffddee;
+    }
+    .skin-btn-wrap{
+        position: absolute;
+        padding: 4px 10px;
+        border-radius: 20px;
+        line-height: 20px;
+        background-color: #fff;
+        z-index: 11;
+        right: 20px;
+        top: 20px;
+    }
+    .skin-btn-wrap a{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+    }
+    #one{
+        background-color: #000;
+    }
+    #two{
+        background-color: #fda100;
+    }
+    #three{
+        background-color: #ffddee;
+    }
+    .bg:target{
+        z-index: 10;
+    }
+    .bg:not(:target){
+        z-index: 0;
+    }
+</style>
+<body>
+    <!-- 当我们点击a标签时，会命中:target的元素，这个时候会将div的背景颜色改变 -->
+    <div class="bg1 bg" id="bg1"></div>
+    <div class="bg2 bg" id="bg2"></div>
+    <div class="bg3 bg" id="bg3"></div>
+    <div class="skin-btn-wrap">
+        <a href="#bg1" id="one">1</a>
+        <a href="#bg2" id="two">2</a>
+        <a href="#bg3" id="three">3</a>
+    </div>
+</body>
+</html>

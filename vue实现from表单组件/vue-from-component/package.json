@@ -2,7 +2,7 @@
   "name": "vue-from-component",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
+  "scripts": {# 指定运行脚本命令的 npm 命令行缩写
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"

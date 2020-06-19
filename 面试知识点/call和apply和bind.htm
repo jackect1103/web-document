@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<script>
+			// 二分查找
+			// window.onload = () => {
+			//     let len = prompt('数组长度');
+			//     let findValue = prompt('查找值');
+			//     let arr = [];
+			//     let index = 0;
+			//     for (let i = 0; i < len; i++) {
+			//         arr.push(prompt('输入第' + (i + 1) + '数字'));
+			//     }
+			//     console.log('数组长度:', len);
+			//     console.log('查找值:', findValue);
+			//     console.log('数组：', arr);
+			//     for (let j = 0; j < len; j++) {
+			//         if (arr[j] == findValue) {
+			//             index = j + 1;
+			//             break;
+			//         } else {
+			//             index = parseInt(len) + 1
+			//         }
+			//     }
+			//     console.log(index);
+			// }
+
+			// function indexOf(arr, item) {
+			//     let len = arr.length;
+			//     if (arr == null || len == 0) return;
+			//     // for (let i = 0; i < len; i++) {
+			//     //     console.log(arr[i] + ':'+ item);
+			//     //     if (arr[i] == item) {
+			//     //         return i
+			//     //     }
+			//     // }
+			//     // return -1
+			//     return arr.indexOf(item)
+			// }
+			// let arr = [1, 2, 3, 4]
+			// console.log(indexOf(arr, 3));
+
+			// function removeWithoutCopy(arr, item) {
+			//     for (let i = 0; i < arr.length; i++) {
+			//         let index = arr.indexOf(item);
+			//         arr.splice(index, 1)                
+			//     }
+			//     return arr
+			// }
+			// console.log(removeWithoutCopy([1, 2, 2, 3, 4, 2, 2], 2));
+
+			// function append(arr, item) {
+			//     return arr.concat(item)
+			// }
+			// console.log(append([1, 2], 2));
+
+			// function truncate(arr) {
+			//     if (arr == null || arr.length == 0) return;
+			//     return arr.slice(0,arr.length-1)
+			// }
+			// console.log(truncate([1, 2, 2, 3, 4, 2]));
+
+			// function prepend(arr, item) {
+			//     if (arr == null || arr.length == 0) return;
+			//     let res = [item]
+			//     for (let i = 0; i < arr.length; i++) {
+			//         res.push(arr[i])
+			//     }
+			//     return res
+			// }
+			// arr = [1, 2, 2, 3, 4, 2]
+			// console.log(arr)
+			// console.log(prepend(arr, 10));
+
+			// arr = [1, 2, 2, 3, 4, 2]
+			// function curtail(arr) {
+			//     var res = arr.join().split(',');
+			//      res.shift(0)
+			//      return res
+			// }
+			// console.log(curtail(arr));
+
+			function fun(x, y, z) {
+				console.log(this)
+				return [...arguments]
+			}
+			// console.log(fun.bind([], 1, 2, 3)(4, 5, 6))
+
+			/**
+			 * bind
+			 * 1.改变this的指向 ==》通过call或者apply
+			 * 2.返回一个函数方法
+			 * 3.接收参数 
+			 */
+			Function.prototype.bind2 = (fn) => {
+				var self = this;
+				// 获取bind2函数从第二个参数到最后一个参数
+				var args = Array.prototype.slice.call(arguments, 1);
+				return function() {
+					// 这个时候的arguments是指bind返回的函数传入的参数
+					var bindArgs = Array.prototype.slice.call(arguments);
+					return self.apply(fn, args.concat(bindArgs));
+				}
+			}
+			var foo = {
+				value: 1
+			};
+
+			function bar() {
+				return this
+			}
+
+			var bindFoo = bar.bind([foo], 1, 2, 3);
+
+			// console.log(bindFoo(4, 5, 6));
+
+			/**
+			 * call
+			 * 1.改变this的指向 
+			 * 2.接收参数
+			 * 3.判断第一个参数是否为null
+			 */
+			Function.prototype.call2 = function(context) {
+				// 首先要获取调用call的函数，用this可以获取
+				//console.log(this); //bar2函数方法
+				var context = context || window;
+				context.fn = this;
+				var args = Array.prototype.slice.call(arguments, 1)
+				var result = eval('context.fn(' + args + ')');
+				//console.log(args);
+				//console.log(args.toString());
+				//这里 args 会自动调用 Array.toString() 这个方法
+				delete context.fn
+				return result;
+			}
+
+			var foo2 = {
+				value: 1
+			};
+
+			function bar2(name, age) {
+				// console.log(this.value);
+				return {
+					value: this.value,
+					name: name,
+					age: age
+				}
+			}
+
+			// console.log(bar2.call2(null, 1, 5, 6));
+
+			/**
+			 * apply
+			 * 1.改变this的指向 
+			 * 2.接收参数
+			 * 3.判断第一个参数是否为null
+			 */
+			Function.prototype.apply2 = function(context, arr) {
+				var context = Object(context) || window;
+				context.fn = this;
+
+				var result;
+				if(!arr) {
+					result = context.fn();
+				} else {
+					var args = [];
+					for(var i = 0, len = arr.length; i < len; i++) {
+						args.push('arr[' + i + ']');
+					}
+					result = eval('context.fn(' + args + ')')
+					console.log('result:', result);
+				}
+
+				delete context.fn
+				return result;
+			}
+
+			var foo3 = {
+				value: 1
+			};
+
+			function bar3(name, age) {
+				console.log('this.value:', this.value);
+				console.log('this.name:', name);
+				console.log('this.age:', age);
+				return {
+					value: this.value,
+					name: name,
+					age: age
+				}
+			}
+
+			console.log(bar3.apply2(foo3, [1, 2, 3]));
+
+			console.log('********')
+
+			async function async1() {
+				console.log(1);
+				const result = await async2();
+				console.log(3);
+			}
+
+			async function async2() {
+				console.log(2);
+			}
+			Promise.resolve().then(() => {
+				console.log(4)
+			})
+			setTimeout(() => {
+				console.log(5)
+			})
+			async1();
+			console.log(6)
+
+			var foo = 'Hello';
+			(function() {
+				var bar = 'World';
+				alert(foo + bar);
+			})();
+			
+			
+		</script>
+	</body>
+
+</html>

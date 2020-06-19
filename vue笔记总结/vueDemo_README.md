@@ -1,4 +1,4 @@
-[toc]
+[TOC]
 
 ## 1. vue脚手架
 ```javascript
@@ -114,8 +114,10 @@ axios使用
 ```
 
 ## 5. vue-router
+
+###  5.1 vue-router用来实现SPA的插件
+
 ```javascript
-vue用来实现SPA的插件
 使用vue-router
     1. 创建路由器: router/index.js
       new VueRouter({
@@ -142,8 +144,11 @@ vue用来实现SPA的插件
     1. 定义路由组件    
     2. 映射路由
     3. 编写路由2个标签
-### 嵌套路由(类似tab选项框的时候，切换tab键**/user/foo/profile  ||  /user/foo/posts**)
-    children: [
+```
+### 5.2 嵌套路由(类似tab选项框的时候，切换tab键**/user/foo/profile  ||  /user/foo/posts**)
+
+```js
+children: [
         {
           path: '/home/news',
           component: news
@@ -152,48 +157,65 @@ vue用来实现SPA的插件
           path: 'message',
           component: message
         }
-     ]
+    ]
+```
 
-### 向路由组件传递数据
-    params: <router-link to="/home/news/abc/123">
-    props: <router-view msg='abc'>
-缓存路由组件
+### 5.3 向路由组件传递数据
+
+```html
+params: <router-link to="/home/news/abc/123">
+props: <router-view msg='abc'>
+```
+
+### 5.4路由的编程式导航
+
+```js
+this.$router.push(path): 相当于点击路由链接(可以返回到当前路由界面)
+this.$router.replace(path): 用新路由替换当前路由(不可以返回到当前路由界面)
+this.$router.back(): 请求(返回)上一个记录路由
+```
+
+### 5.5缓存路由组件
+
+```html
 <keep-alive>的作用：https://www.jianshu.com/p/4b55d312d297
 其中的缺点：
   我们使用动态路由做匹配的话页面只会保持第一次请求数据的渲染结果
+    
 解决方法：
-  利用include（只有包含的才会被缓存）、exclude（包含的不会被缓存）属性
+  利用include（只有包含的才会被缓存）、
     <keep-alive include="bookLists,bookLists"> //boklists是组件的name名称
         <router-view></router-view>
     </keep-alive>
+  exclude（包含的不会被缓存）属性
     <keep-alive exclude="indexLists">
         <router-view></router-view>
     </keep-alive>
-路由的编程式导航
-	this.$router.push(path): 相当于点击路由链接(可以返回到当前路由界面)
-	this.$router.replace(path): 用新路由替换当前路由(不可以返回到当前路由界面)
-	this.$router.back(): 请求(返回)上一个记录路由
 ```
-### 路由属性
+
+
+
+### 5.6路由属性
+
 - 1.replace
-设置replace属性的话，当点击时，会调用roter.replace()而不是router.push()，所以导航后不会留下history记录，也就是不能回退到上一个页面
+设置replace属性的话，当点击时，会调用roter.replace()而不是router.push()，所以导航后**不会留下history记录**，也就是**不能回退到上一个页面**
 ```html
  <router-link :to="{path: ‘/abc‘}" replace>ABC</router-link>
- ```
+```
 - 2.tag
 有时候想要<router-link>渲染成某种标签，例如<li>。于是我们使用tag prop 类指定何种标签，同样它还是会监听点击，触发导航。
 ```html
  <router-link to="/foo" tag="li">FOO</router-link>
   // 渲染结果 
   <li>FOO</li>
- ```
+```
 
-### 参数传递
+### 5.7参数传递
 vue-router传递参数分为两大类
 - 编程式的导航 router.push()
 - 声明式的导航 <router-link>
   
-#### 编程式导航传递参数有两种类型：字符串、对象。
+#### 5.7.1编程式导航传递参数有两种类型：字符串、对象。
 ```javascript
 1. 字符串的方式是直接将路由地址以字符串的方式来跳转，这种方式很简单但是不能传递参数：
    this.$router.push("home");
@@ -217,7 +239,7 @@ vue-router传递参数分为两大类
   this.$router.push({ path: '/news', query: { userId: 123 }});
 ```
 
-#### 声明式的导航
+#### 5.7.2声明式的导航
 ```html
 - 字符串
 <router-link to="news">click to news page</router-link>
@@ -229,19 +251,28 @@ vue-router传递参数分为两大类
 <router-link :to="{ path: '/news', query: { userId: 1111}}">click to news page</router-link>
 
 ```
-### 使用 Vue Router 路由器的步骤是什么并给出一个例子？
-```javascript
-- 组件1跳转到组件2，然后组件2跳转组件2本身
-router.beforeEach(全局前置守卫) => beforeEnter(路由独享守卫) => beforeRouterEnter(组件内的进入守卫) => router.beforeResolve(全局解析守卫) => router.afterEach(全局后置守卫) => 组件2 onComplete回调 => 组件2 beforeCreate(组件生命周期) => created => router.beforeEach(全局前置守卫) => 组件2 beforeRouterUpdate()
+####  5.7.3使用 Vue Router 路由器的步骤是什么并给出一个例子？
 
-- 如果从组件1 跳转到组件2 
+- 第一种：是全局导航钩子：router.beforeEach(to,from,next)，作用：跳转前进行判断拦截。
+  第二种：组件内的钩子
+  第三种：单独路由独享组件
+
+- 组件1跳转到组件2，然后组件2跳转组件2本身
+
+  ```js
+  router.beforeEach(全局前置守卫) => beforeEnter(路由独享守卫) => beforeRouterEnter(组件内的进入守卫) => router.beforeResolve(全局解析守卫) => router.afterEach(全局后置守卫) => 组件2 onComplete回调 => 组件2 beforeCreate(组件生命周期) => created => router.beforeEach(全局前置守卫) => 组件2 beforeRouterUpdate()
+  ```
+
+- 如果从组件1 跳转到组件2 的生命周期顺序
+
+```js
 会先执行组件1的销毁函数，在执行组件2的mounted
 组件2beforeCreate => 组件2created => 组件2 beforeMounte => 组件1 beforeDestory => 组件1 destoryed => 组件2 mounted
 ```
 
-### 路由切换的滚动行为
+### 5.8路由切换的滚动行为
  - 注意：这个功能只在支持 history.pushState 的浏览器中可用。
-  
+
 ```javascript
   // 一般滚动
 scrollBehavior(to, from, savedPosition) {
@@ -272,7 +303,7 @@ scrollBehavior(to, from, savedPosition) {
 }  
 
 ```
-### Vue-router 跳转和 location.href 有什么区别？
+## 6.Vue-router 跳转和 location.href 有什么区别？
 window.location对象 和 window.history对象
 eg：https://segmentfault.com/a/1190000014120456
 ```javascript

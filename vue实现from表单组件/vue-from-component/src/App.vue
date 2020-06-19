@@ -12,7 +12,7 @@ export default {
   name: 'app',
   components: {
     formElement,
-    // parents
+    // parents,
   },
   methods: {
     

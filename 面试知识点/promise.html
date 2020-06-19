@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise请求数据</title>
+</head>
+
+<body>
+    <script>
+        function getData(url) {
+            //定义promise
+            let promise = new Promise((resolve, reject) => {
+                //原生js的XMLHttpRequest
+                let xmlHttp = new XMLHttpRequest();
+                // xmlHttp.setRequestHeader('Access-Control-Allow-Headers', '*');
+                // xmlHttp.setRequestHeader('Content-type', 'application/ecmascript');
+                // xmlHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+                //发送请求
+                xmlHttp.open('get', url);
+                xmlHttp.send();
+                //判断请求状态(onreadystatechange会运行四次 从0-4)
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState === 4) {
+                        if (xmlHttp.status === 200) {
+                            //得到数据
+                            let resultData = xmlHttp.responseText;
+                            //将会改变promise状态peeding
+                            resolve(resultData)
+                        } else {
+                            reject('获取数据失败');
+                        }
+                    }
+                }
+
+            })
+            //再将promise返回
+            return promise;
+        }
+
+        //发送请求
+        getData('https://api.comments.hk/')
+            .then((data) => {
+                console.log(JSON.parse(data));
+                //获取到数据后再次发送音乐连接请求
+                /**
+                 * 注意请求会报错：
+                 * promise.html：1通过'https://music.163.com/song/media/outer/url?id=1369601580.mp3'访问XMLHttpRequest
+                 * （从'https://api.comments.hk/music/ 1369601580'）
+                 * 来自源“ null”的信息已被CORS策略阻止：所请求的资源上没有“ Access-Control-Allow-Origin”标头。
+                 * */
+               return getData('https://api.comments.hk/music/1369601580');
+            }, (error) => {
+                console.log('请求数据失败');
+            })
+            .then((data) => {
+                console.log(data);
+            }, (error) => {
+                console.log('请求数据失败');
+            })
+    </script>
+</body>
+
+</html>
